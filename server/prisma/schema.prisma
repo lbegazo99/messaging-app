@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User{
+  user_id Int @id @default(autoincrement()) 
+  user_name String @unique
+  password String
+  email String @unique
+  first_name String
+  last_name String
+  profile_picture String
+
+  setting Settings?
+  contacts Contact[] @relation("UserContacts")
+  contactOf Contact[] @relation("ContactOf")
+  sentMessages Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  groups GroupMember[]
+}
+
+model Settings{
+  id Int @id
+  user User @relation(fields: [id], references:[user_id]) 
+  lightMode Boolean
+  privacy Boolean
+}
+
+model Contact{
+  user_id Int
+  contact_id Int
+  blocked Boolean
+
+  user User @relation("UserContacts",fields:[user_id],references:[user_id])
+  contact User @relation("ContactOf", fields:[contact_id],references:[user_id])
+
+  @@id([user_id,contact_id])
+}
+
+model Message{
+  message_id Int @id @default(autoincrement())
+  sender_id Int 
+  reciever_id Int 
+  content String?
+  sentAt DateTime @default(now())
+
+  sender User @relation("SentMessages",fields: [sender_id], references:[user_id])
+  reciever User @relation("ReceivedMessages",fields: [reciever_id], references:[user_id])
+  
+}
+
+model Group{
+  group_id Int @id @default(autoincrement()) //primarykey
+  group_name String
+  
+  members GroupMember[]
+}
+
+model GroupMember{
+  user_id Int
+  group_id Int
+
+  user     User   @relation(fields: [user_id], references: [user_id])
+  group    Group  @relation(fields: [group_id], references: [group_id])
+
+  @@id([user_id, group_id]) // composite primary key
+}
