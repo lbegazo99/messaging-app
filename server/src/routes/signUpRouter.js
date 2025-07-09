@@ -1,12 +1,11 @@
-require('dotenv').config()
 const { Router } = require("express")
-const { PrismaClient } = require('./generated/prisma') 
+const { PrismaClient } = require('../../generated/prisma/index.js') 
 const bcrypt = require('bcrypt')
 const prisma = new PrismaClient()
 const signUpRouter = Router();
 
 
-signUpRouter.post('/signup', async (req, res) => {
+signUpRouter.post('/', async (req, res) => {
  
   const {
     user_name,
@@ -23,7 +22,7 @@ signUpRouter.post('/signup', async (req, res) => {
     const newUser = await prisma.user.create({
       data: {
         user_name,
-        hashedPassword,
+        password:hashedPassword,
         email,
         first_name,
         last_name,

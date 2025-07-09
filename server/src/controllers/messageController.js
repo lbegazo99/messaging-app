@@ -1,4 +1,4 @@
-import {PrismaClient} from './generated/prisma'
+const {PrismaClient} = require( '../../generated/prisma/index.js')
 const prisma = new PrismaClient();
 
 async function getAllUserMessages(req,res) {
@@ -24,42 +24,49 @@ async function getAllUserMessages(req,res) {
     res.json(messages)
 }
 
-async function sendUserMessages(req,res){
-    const {user_id} = req.user.user_id;
-    const {receiver_id} = parseInt(req.params.receiver_id)
-    const{content} = req.body;
-
+async function sendUserMessages(req, res) {
+    const sender_id = req.user.user_id;
+    const receiver_id = parseInt(req.params.receiver_id);
+    const { content } = req.body;
     try {
-        const message = await prisma.message.create({
-            data:{
-                user_id,
-                receiver_id,
-                content
-            }
-        })
-
-        res.status(201).json(message);
+      const message = await prisma.message.create({
+        data: {
+          sender_id: sender_id,
+          reciever_id: receiver_id,
+          content: content
+        }
+      });
+  
+      res.status(201).json(message);
     } catch (err) {
-        console.error("error sending message",err);
-        res.status(500).json({error:"failed to send message"});
+      console.error("error sending message", err);
+      res.status(500).json({ error: "failed to send message" });
     }
-}
+  }
 
 async function displayMessages(req,res){
-    const {user_id} = req.user.user_id;
-    const {sender_id} = parseInt(req.params.sender_id)
-
+    const user_id = req.user.user_id;
+    const sender_id = parseInt(req.params.other_user)
     try {
         const messages = await prisma.message.findMany({
-            where:{
-                sender_id:sender_id,
-                receiver_id:user_id
-            }
+            where: {
+                OR: [
+                    {
+                        sender_id: user_id,
+                        reciever_id: sender_id
+                        
+                    },
+                    {
+                        sender_id: sender_id,
+                        reciever_id: user_id
+                    }
+                ]
+            },
         })
 
-
+        res.json(messages)
     } catch (error) {
-        console.error("error finding messages",err);
+        console.error("error finding messages",error);
         res.status(500).json({error:"failed to find messages"})
     }
 

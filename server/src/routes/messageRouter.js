@@ -2,11 +2,14 @@ const {Router} = require("express")
 
 const messageRouter = Router();
 
+const {getAllUserMessages,sendUserMessages,displayMessages} = require( "../controllers/messageController")
+
 messageRouter.get("/",getAllUserMessages);
 
-messageRouter.post("/send/:recieverid",sendMessage);
+messageRouter.post("/send/:receiver_id", sendUserMessages);
 
-messageRouter.get("/:senderid",displayMessages);
+
+messageRouter.get("/getconvo/:other_user",displayMessages);
 
 module.exports = messageRouter;
 
