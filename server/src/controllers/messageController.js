@@ -1,5 +1,4 @@
-const {PrismaClient} = require( '../../generated/prisma/index.js')
-const prisma = new PrismaClient();
+const prisma = require('../../prisma/client.js')
 
 async function getAllUserMessages(req,res) {
     const {user_id} = req.user.user_id;
@@ -25,14 +24,15 @@ async function getAllUserMessages(req,res) {
 }
 
 async function sendUserMessages(req, res) {
-    const sender_id = req.user.user_id;
-    const receiver_id = parseInt(req.params.receiver_id);
-    const { content } = req.body;
     try {
+        const sender_id = req.user.user_id;
+        const receiver_id = parseInt(req.params.receiver_id);
+        const { content } = req.body;
+
       const message = await prisma.message.create({
         data: {
           sender_id: sender_id,
-          reciever_id: receiver_id,
+          receiver_id: receiver_id,
           content: content
         }
       });
@@ -53,18 +53,18 @@ async function displayMessages(req,res){
                 OR: [
                     {
                         sender_id: user_id,
-                        reciever_id: sender_id
+                        receiver_id: sender_id
                         
                     },
                     {
                         sender_id: sender_id,
-                        reciever_id: user_id
+                        receiver_id: user_id
                     }
                 ]
             },
         })
 
-        res.json(messages)
+        res.status(200).json(messages)
     } catch (error) {
         console.error("error finding messages",error);
         res.status(500).json({error:"failed to find messages"})

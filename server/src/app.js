@@ -2,6 +2,8 @@ require('dotenv').config()
 const express = require("express")
 const app = express();
 
+app.use(express.json())
+
 const{authenticateToken} = require("./middleware/authMiddleware");
 const messageRouter = require("./routes/messageRouter");
 const signUpRouter = require("./routes/signUpRouter");
@@ -9,7 +11,6 @@ const groupRouter = require("./routes/groupRouter");
 const contactRouter = require("./routes/contactRouter");
 const loginRouter = require("./routes/logInRouter")
 
-app.use(express.json())
 
 app.use("/messages",authenticateToken,messageRouter)
 app.use("/signup",signUpRouter)

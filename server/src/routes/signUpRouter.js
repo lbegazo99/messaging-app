@@ -1,9 +1,7 @@
 const { Router } = require("express")
-const { PrismaClient } = require('../../generated/prisma/index.js') 
 const bcrypt = require('bcrypt')
-const prisma = new PrismaClient()
+const prisma = require('../../prisma/client.js')
 const signUpRouter = Router();
-
 
 signUpRouter.post('/', async (req, res) => {
  
