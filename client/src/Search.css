@@ -1,0 +1,44 @@
+.logo{
+    width: 5%;
+    height: 5%;
+}
+.searchNavigator{
+    display: flex;
+    height: 10%;
+    width: 100%;
+}
+
+.searchWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+input{
+    font-size: 1rem;
+    margin-left: .25rem;
+    width: 100%;
+}
+
+.userCards{
+    gap: .25rem;
+    margin-left: 6%;
+    width: 90%;
+}
+
+.card{
+    border: 1px solid black;
+    background-color: white;
+    padding: .5rem;
+}
+
+.card > .header {
+    margin-bottom: .25rem;
+}
+
+.card > .body{
+    font-size: .8rem;
+    color: #777;
+}
+
+

@@ -9,7 +9,7 @@ logInRouter.post('/', async (req,res) => {
     const {user_name,password} = req.body;
    try{
        const user = await prisma.user.findUnique({
-           where:{user_name}
+           where:{user_name} 
        });
        if(!user){
            return res.status(400).send('Cannot find user')

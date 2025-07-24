@@ -79,10 +79,12 @@ test("checks to see if a user can send a message to another user",done => {
     .expect(201, done);
 })
 
-test("can i get a users message with another user", done => {
+test("checks to see if you can a conversation between two users", done => {
     request(app)
     .get("/messages/getconvo/2")
     .set("Authorization",`Bearer ${token}`)
     .expect("Content-Type",/json/)
     .expect(200,done)
 })
+
+test("")

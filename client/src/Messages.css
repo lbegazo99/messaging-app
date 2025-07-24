@@ -1,0 +1,13 @@
+.messagesContainer{
+    border: 1px solid red;
+    width: 40%;
+}
+
+.messageDiv1{
+    border-top: 0.5px solid lightblue;
+    border: 1px solid blue;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    padding-left: 20%;
+}
