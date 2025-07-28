@@ -1,6 +1,8 @@
 import "./Search.css"
 import {useState,useEffect} from "react"
 import {FaSearch} from "react-icons/fa"
+import Conversation from "./Conversation";
+import { Link } from "react-router-dom";
 
 function Search(){
    const[users,setUsers] = useState([]);
@@ -9,9 +11,18 @@ function Search(){
    useEffect(() => {
        if(user.trim() === ""){
            setUsers([])
-           return
+           return;
        }
-        fetch(`http://localhost:3000/user/${user}`)
+
+       const token = localStorage.getItem("token");
+
+        fetch(`http://localhost:3000/user/${user}`,{
+            headers:{
+                "Content-Type":"application/json",
+                 "Authorization": `Bearer ${token}`
+            }
+        })
+
         .then((res) => res.json())
         .then((data) => {
             setUsers(data)
@@ -35,10 +46,12 @@ function Search(){
             {user !== "" && users.length > 0 && (
                  <div className = "userCards"> 
                  {users.map((user) => (
+                     <Link to = {`/conversation/${user.user_id}/${user.user_name}`}>
                     <div key={user.user_id} className="card">
                     <div className="header">{user.user_name}</div>
                     <div className="body">{user.email}</div>
-                </div>
+                    </div>
+                    </Link>
                 ))}     
                  </div>
             )}

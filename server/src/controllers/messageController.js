@@ -1,7 +1,7 @@
 const prisma = require('../../prisma/client.js')
 
 async function getAllUserMessages(req,res) {
-    const {user_id} = req.user.user_id;
+    const user_id = req.user.user_id;
 
     const messages = await prisma.messages.findMany({
         where:{
@@ -69,11 +69,39 @@ async function displayMessages(req,res){
         console.error("error finding messages",error);
         res.status(500).json({error:"failed to find messages"})
     }
+}
 
-    res.json(messages)
+async function getRecentMessages(req,res){
+    const user_id = req.user.user_id;
+    try{
+        const recentMessages = await prisma.$queryRaw
+        `
+        SELECT DISTINCT ON (
+            LEAST(m."sender_id", m."receiver_id"),
+            GREATEST(m."sender_id", m."receiver_id")
+          ) 
+            m.*,
+            sender."user_name" AS sender_name,
+            receiver."user_name" AS receiver_name
+          FROM "Message" m
+          JOIN "User" sender ON sender."user_id" = m."sender_id"
+          JOIN "User" receiver ON receiver."user_id" = m."receiver_id"
+          WHERE m."sender_id" = ${user_id} OR m."receiver_id" = ${user_id}
+          ORDER BY
+            LEAST(m."sender_id", m."receiver_id"),
+            GREATEST(m."sender_id", m."receiver_id"),
+            m."sentAt" DESC;
+      `;
+
+      res.status(200).json(recentMessages)
+    }catch(error){
+        console.error("error finding messages",error);
+        res.status(500).json({error:"failed to find messages"})
+    }
 }
 module.exports = {
     getAllUserMessages,
     sendUserMessages,
-    displayMessages
+    displayMessages,
+    getRecentMessages
 }

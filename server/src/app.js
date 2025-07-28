@@ -22,7 +22,7 @@ app.use("/messages",authenticateToken,messageRouter)
 app.use("/signup",signUpRouter)
 app.use("/group",authenticateToken,groupRouter)
 app.use("/contact",authenticateToken,contactRouter)
-app.use("/user",userRouter)
+app.use("/user",authenticateToken,userRouter)
 
 app.use('/login',loginRouter)
 

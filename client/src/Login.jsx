@@ -1,6 +1,7 @@
 import './Login.css'
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 
 function Login(){
@@ -17,9 +18,14 @@ function Login(){
                 body: JSON.stringify({user_name,password})
             })
 
+            const data = await res.json()
+
             if(res.ok){
+                localStorage.setItem("token",data.access_token);
                 navigate("/home-page")
             }
+
+
 
         } catch (error) {
             console.error('failed to sign up:',error)
@@ -42,7 +48,7 @@ function Login(){
             <div className="logindivnum2">
                 <div className='logindivnum2A'>Hello!!!</div>
                 <div className='logindivnum2B'>
-                  <div>New to FriendsOnly?</div> <button className="signUpLink">Create an account</button>
+                  <div>New to FriendsOnly?</div> <Link to = "/signup"><button className="signUpLink">Create an account</button></Link>
                 </div>
             </div>
 

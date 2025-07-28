@@ -1,6 +1,8 @@
-const {Router} = require("express")
+const {Router} = require("express");
+const { user } = require("../../prisma/client.js");
 const userRouter = Router();
 const prisma = require('../../prisma/client.js')
+
 userRouter.get("/:user_name", async (req,res) => {
     const user_name = req.params.user_name
 
@@ -19,5 +21,8 @@ userRouter.get("/:user_name", async (req,res) => {
         res.status(500).json({error:"Failed to search user"});
     }
 })
+
+user.get
+
 
 module.exports = userRouter

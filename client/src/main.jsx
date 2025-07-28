@@ -5,6 +5,8 @@ import './index.css'
 import App from './App.jsx'
 import DashBoard from './DashBoard'
 import SignUp from './SignUp'
+import Conversation from './Conversation'
+import FullScreenConversation from './FullScreenConversation'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,10 @@ const router = createBrowserRouter([
   {
     path:"signup",
     element:<SignUp/>
+  },
+  {
+    path:"conversation/:user_id/:user_name",
+    element:<FullScreenConversation/>
   }
 
 ])

@@ -1,6 +1,7 @@
 import react from "react"
 import "./SignUp.css"
 import {useState} from 'react'
+import{Link} from 'react-router-dom'
 
 function SignUp(){
     const[user_name,setUserName] = useState("")
@@ -42,7 +43,7 @@ function SignUp(){
             <div className="signupdivnum2">
                 <div className='signupdivnum2A'>Hello!!!</div>
                 <div className='signupdivnum2B'>
-                  <div>Already Have An account ?</div> <button className="LoginLink">Login</button>
+                  <div>Already Have An account ?</div> <Link to = "/"><button className="LoginLink">Login</button></Link>
                 </div>
             </div>
 
