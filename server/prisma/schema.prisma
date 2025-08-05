@@ -30,6 +30,7 @@ model User{
   sentMessages Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
   groups GroupMember[]
+  userInfo UserInfo? @relation
 }
 
 model Settings{
@@ -77,4 +78,15 @@ model GroupMember{
   group    Group  @relation(fields: [group_id], references: [group_id])
 
   @@id([user_id, group_id]) // composite primary key
+}
+
+model UserInfo{
+  user_id Int @id
+  Profession String
+  Employer String
+  Skills String[]
+  Location String
+  AboutMe String
+
+  user User @relation(fields:[user_id],references:[user_id])
 }

@@ -37,7 +37,7 @@ function Conversation({profile}){
    },[profile])
 
    const sendMessage = () =>{
-    fetch(`http://localhost:3000/messages/send/${user_id}`,{
+    fetch(`http://localhost:3000/messages/send/${profile}`,{
         method:"Post",
         headers:{
             "Content-Type":"application/json",

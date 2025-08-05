@@ -7,6 +7,7 @@ import { LuMessageSquare } from "react-icons/lu";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
+import Profile from "./Profile"
 
 
 function DashBoard(){
@@ -22,6 +23,7 @@ function DashBoard(){
        </div>
         {state === "messages" && (<><Messages setProfile={setProfile}/> <Conversation profile = {profile}/> </>)}
         {state === "search" && <Search/>}
+        {state === "profile" && <Profile/>}
       </div>
   )
 }
