@@ -17,7 +17,6 @@ const contactRouter = require("./routes/contactRouter");
 const loginRouter = require("./routes/logInRouter")
 const userRouter = require("./routes/userRouter")
 
-
 app.use("/messages",authenticateToken,messageRouter)
 app.use("/signup",signUpRouter)
 app.use("/group",authenticateToken,groupRouter)

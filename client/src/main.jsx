@@ -7,6 +7,7 @@ import DashBoard from './DashBoard'
 import SignUp from './SignUp'
 import Conversation from './Conversation'
 import FullScreenConversation from './FullScreenConversation'
+import GroupConversation from './GroupConversation'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path:"conversation/:user_id/:user_name",
     element:<FullScreenConversation/>
+  },
+  {
+    path:"conversation/:group_id",
+    element:<GroupConversation/>
   }
 
 ])

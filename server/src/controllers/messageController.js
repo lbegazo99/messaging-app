@@ -99,9 +99,51 @@ async function getRecentMessages(req,res){
         res.status(500).json({error:"failed to find messages"})
     }
 }
+
+async function getGroupMessages(req,res){
+    const group_id = req.params.group_id;
+
+    try {
+        const group_messages = await prisma.groupMessages.findMany({
+            where:{
+                group_id:group_id
+            },
+            include:{
+                user_id,
+                content
+            }
+        })
+
+        res.status(200).json(group_messages)
+    } catch (error) {
+        console.error("error finding messages",error);
+        res.status(500).json({error:"failed to find messages"})
+    }
+    
+}
+
+async function sendGroupMessage(req,res){
+    const {group_id,user_id,content} = req.body
+
+    try{
+        await prisma.groupMessages.create({
+            data:{
+                group_id:group_id,
+                user_id:user_id,
+                content:content
+            }
+        })
+
+        res.status(200).json("message sent")
+    }catch(error){
+        console.error("error")
+    }
+}
 module.exports = {
     getAllUserMessages,
     sendUserMessages,
     displayMessages,
-    getRecentMessages
+    getRecentMessages,
+    getGroupMessages,
+    sendGroupMessage
 }

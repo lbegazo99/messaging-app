@@ -31,6 +31,7 @@ model User{
   receivedMessages Message[] @relation("ReceivedMessages")
   groups GroupMember[]
   userInfo UserInfo? @relation
+  messages GroupMessages[]
 }
 
 model Settings{
@@ -68,6 +69,7 @@ model Group{
   group_name String
   
   members GroupMember[]
+  messages GroupMessages[]
 }
 
 model GroupMember{
@@ -89,4 +91,18 @@ model UserInfo{
   AboutMe String
 
   user User @relation(fields:[user_id],references:[user_id])
+}
+
+model GroupMessages{
+  id Int @id @default(autoincrement())
+  group_id Int
+  user_id Int
+
+  content String?
+  sentAt DateTime @default(now())
+
+  user User @relation(fields: [user_id], references:[user_id])
+  group Group @relation(fields: [group_id], references:[group_id])
+
+
 }
